@@ -1,6 +1,22 @@
+# github.com/ClickHouse/clickhouse-go v1.4.5
+## explicit
+github.com/ClickHouse/clickhouse-go
+github.com/ClickHouse/clickhouse-go/lib/binary
+github.com/ClickHouse/clickhouse-go/lib/cityhash102
+github.com/ClickHouse/clickhouse-go/lib/column
+github.com/ClickHouse/clickhouse-go/lib/data
+github.com/ClickHouse/clickhouse-go/lib/leakypool
+github.com/ClickHouse/clickhouse-go/lib/lz4
+github.com/ClickHouse/clickhouse-go/lib/protocol
+github.com/ClickHouse/clickhouse-go/lib/types
+github.com/ClickHouse/clickhouse-go/lib/writebuffer
 # github.com/Shopify/sarama v1.29.0
 ## explicit
 github.com/Shopify/sarama
+# github.com/cloudflare/golz4 v0.0.0-20150217214814-ef862a3cdc58
+github.com/cloudflare/golz4
+# github.com/confluentinc/confluent-kafka-go v1.7.0
+## explicit
 # github.com/davecgh/go-spew v1.1.1
 github.com/davecgh/go-spew/spew
 # github.com/eapache/go-resiliency v1.2.0
@@ -71,3 +87,8 @@ golang.org/x/crypto/pbkdf2
 golang.org/x/net/http2/hpack
 golang.org/x/net/internal/socks
 golang.org/x/net/proxy
+# gopkg.in/confluentinc/confluent-kafka-go.v1 v1.7.0
+## explicit
+# gopkg.in/yaml.v2 v2.2.2
+## explicit
+gopkg.in/yaml.v2
