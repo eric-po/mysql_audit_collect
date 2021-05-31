@@ -71,7 +71,7 @@ func GetChCon() *sql.DB {
 		instancePortStr, ex := os.LookupEnv("CH_INSTANCE_PORT")
 		var instancePort int
 		var portParseError error
-		if ex {
+		if !ex {
 			instancePort = 9091
 			log.Printf("The env variable %s is not set.\n", "CH_INSTANCE_PORT")
 		} else {
