@@ -11,15 +11,13 @@ import (
 	"strconv"
 )
 
+var sqlFormat = "insert into sql_record(db_host  ,db_port  ,query_timestamp  ,serverhost  ,username  ,host  ,connectionid  ,queryid  ,operation  ,database  ,object  ,retcode) values(?,?,?,?,?,?,?,?,?,?,?,?) ;"
+
 func QueryRecordHandle(message *sarama.ConsumerMessage) {
 	var qr *data_parse.QueryRecord
 	qr = data_parse.RecordParse(string(message.Value))
 	msg := data_parse.MessageParse(qr.Message)
 	fmt.Println(*msg)
-	fmt.Printf("hehe %s\n", qr.Message)
-	fmt.Printf("haha %s\n", qr.DbHost)
-	fmt.Printf("ohoh %d\n", qr.DbPort)
-	sqlFormat := "insert into sql_record(db_host  ,db_port  ,query_timestamp  ,serverhost  ,username  ,host  ,connectionid  ,queryid  ,operation  ,database  ,object  ,retcode) values(?,?,?,?,?,?,?,?,?,?,?,?) ;"
 	chCon := GetChCon()
 	var (
 		tx, _   = chCon.Begin()
@@ -63,14 +61,14 @@ func ChConnect(instanceHost string, instancePort int, database string) *sql.DB {
 func GetChCon() *sql.DB {
 	if ChCon == nil {
 		//instanceHost := os.Getenv("INSTANCE_HOST")
-		instanceHost, ex := os.LookupEnv("INSTANCE_HOST")
+		instanceHost, ex := os.LookupEnv("CH_INSTANCE_HOST")
 		if !ex {
 			instanceHost = "10.200.11.26"
 			log.Printf("The env variable %s is not set.\n", "CH_INSTANCE_HOST")
 		}
 		//instanceHost := "10.200.11.26"
 		//instancePort := 9091
-		instancePortStr, ex := os.LookupEnv("INSTANCE_PORT")
+		instancePortStr, ex := os.LookupEnv("CH_INSTANCE_PORT")
 		var instancePort int
 		var portParseError error
 		if ex {

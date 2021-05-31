@@ -2,7 +2,6 @@ package kafka_utils
 
 import (
 	"context"
-	"fmt"
 	"github.com/Shopify/sarama"
 	"github.com/ssesse/mysql_audit_collect/pkg/service/clickhouse_utils"
 	"log"
@@ -129,7 +128,7 @@ func (consumer *Consumer) ConsumeClaim(session sarama.ConsumerGroupSession, clai
 	// https://github.com/Shopify/sarama/blob/master/consumer_group.go#L27-L29
 
 	for message := range claim.Messages() {
-		fmt.Println(string(message.Value))
+		//fmt.Println(string(message.Value))
 		clickhouse_utils.QueryRecordHandle(message)
 		//log.Printf("Message claimed: value = %s, timestamp = %v, topic = %s", string(message.Value), message.Timestamp, message.Topic)
 		session.MarkMessage(message, "")
