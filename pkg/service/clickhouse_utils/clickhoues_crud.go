@@ -9,6 +9,7 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"sync"
 )
 
 var sqlFormat = "insert into sql_record(db_host  ,db_port  ,query_timestamp  ,serverhost  ,username  ,host  ,connectionid  ,queryid  ,operation  ,database  ,object  ,retcode) values(?,?,?,?,?,?,?,?,?,?,?,?) ;"
@@ -46,6 +47,7 @@ func QueryRecordHandle(message *sarama.ConsumerMessage) {
 }
 
 var ChCon *sql.DB
+var dbMutex sync.Mutex
 
 func ChConnect(instanceHost string, instancePort int, database string) *sql.DB {
 	DSNConnect := fmt.Sprintf("tcp://%s:%d?database=%s", instanceHost, instancePort, database)
@@ -59,6 +61,8 @@ func ChConnect(instanceHost string, instancePort int, database string) *sql.DB {
 }
 
 func GetChCon() *sql.DB {
+	dbMutex.Lock()
+	defer dbMutex.Unlock()
 	if ChCon == nil {
 		//instanceHost := os.Getenv("INSTANCE_HOST")
 		instanceHost, ex := os.LookupEnv("CH_INSTANCE_HOST")
