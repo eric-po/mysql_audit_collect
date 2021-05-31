@@ -67,7 +67,7 @@ func GetChCon() *sql.DB {
 		//instanceHost := os.Getenv("INSTANCE_HOST")
 		instanceHost, ex := os.LookupEnv("CH_INSTANCE_HOST")
 		if !ex {
-			instanceHost = "10.200.11.26"
+			instanceHost = "10.200.11.25"
 			log.Printf("The env variable %s is not set.\n", "CH_INSTANCE_HOST")
 		}
 		//instanceHost := "10.200.11.26"
@@ -89,6 +89,7 @@ func GetChCon() *sql.DB {
 			chDatabase = "hehe"
 			log.Printf("The env variable %s is not set.\n", "CH_DATABASE")
 		}
+		fmt.Println(instanceHost, instancePort, chDatabase)
 		ChCon = ChConnect(instanceHost, instancePort, chDatabase)
 		//return ChCon
 	}
