@@ -18,7 +18,7 @@ func QueryRecordHandle(message *sarama.ConsumerMessage) {
 	var qr *data_parse.QueryRecord
 	qr = data_parse.RecordParse(string(message.Value))
 	msg := data_parse.MessageParse(qr.Message)
-	fmt.Println(*msg)
+	//fmt.Println(*msg)
 	chCon := GetChCon()
 	var (
 		tx, _   = chCon.Begin()

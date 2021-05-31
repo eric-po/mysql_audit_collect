@@ -44,17 +44,17 @@ func MessageParse(message string) *MessageInfo {
 	//reg1 := regexp.MustCompile(`(\d{8} \d{2}:\d{2}:\d{2}),(.*),(.*),(.*),(\d*),(\d*),(CONNECT|QUERY|READ|WRITE|CREATE|ALTER|RENAME|DROP),(.*),['](.*)['],(\d*$)`)
 
 	result0 := reg1.FindAllStringSubmatch(message, -1)
-	fmt.Println("haha : ", result0)
+	//fmt.Println("haha : ", result0)
 	if len(result0) == 0 {
 		reg1 = regexp.MustCompile(`(\d{8} \d{2}:\d{2}:\d{2}),(.*),(.*),(.*),(\d*),(\d*),(.*),(.*),(.*),(\d*$)`)
 		//reg1 = regexp.MustCompile(`(\d{8} \d{2}:\d{2}:\d{2}),(.*),(.*),(.*),(\d*),(\d*),(CONNECT|DISCONNECT|QUERY|READ|WRITE|CREATE|ALTER|RENAME|DROP),(.*),(),(\d*$)`)
 		result0 = reg1.FindAllStringSubmatch(message, -1)
-		fmt.Println(result0)
+		//fmt.Println(result0)
 	}
-
-	for _, param := range result0[0] {
-		fmt.Printf("diwn : %s\n", param)
-	}
+	//
+	//for _, param := range result0[0] {
+	//	fmt.Printf("diwn : %s\n", param)
+	//}
 	var msgResult MessageInfo
 	msgResult.QueryTimestamp = result0[0][1]
 	msgResult.Serverhost = result0[0][2]
