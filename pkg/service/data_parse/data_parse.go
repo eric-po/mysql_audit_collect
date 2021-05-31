@@ -40,7 +40,8 @@ type MessageInfo struct {
 }
 
 func MessageParse(message string) *MessageInfo {
-	reg1 := regexp.MustCompile(`(.*),(.*),(.*),(.*),(.*),(.*),(.*),(.*),[']?(.*)[']?,(\d*$)`)
+	//reg1 := regexp.MustCompile(`(.*),(.*),(.*),(.*),(.*),(.*),(.*),(.*),[']?(.*)[']?,(\d*$)`)
+	reg1 := regexp.MustCompile(`(\d{8} \d{2}:\d{2}:\d{2}),(.*),(.*),(.*),(\d*),(\d*),(CONNECT|QUERY|READ|WRITE|CREATE|ALTER|RENAME|DROP),(.*),['](.*)['],(\d*$)`)
 	result0 := reg1.FindAllStringSubmatch(message, -1)
 	fmt.Println("haha : ", result0)
 
