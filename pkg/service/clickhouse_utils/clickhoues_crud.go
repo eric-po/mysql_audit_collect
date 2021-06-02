@@ -14,6 +14,67 @@ import (
 
 var sqlFormat = "insert into sql_record(db_host  ,db_port  ,query_timestamp  ,serverhost  ,username  ,host  ,connectionid  ,queryid  ,operation  ,database  ,object  ,retcode) values(?,?,?,?,?,?,?,?,?,?,?,?) ;"
 
+func QueryRecordHandleBatch(cMessage []*sarama.ConsumerMessage) {
+	chCon := GetChCon()
+	var (
+		tx, _   = chCon.Begin()
+		stmt, _ = tx.Prepare(sqlFormat)
+	)
+
+	for _, message := range cMessage {
+		qr := data_parse.RecordParse(string(message.Value))
+		msg := data_parse.MessageParse(qr.Message)
+		if msg.Object == "" {
+			continue
+		}
+		if _, err := stmt.Exec(
+			qr.DbHost,
+			qr.DbPort,
+			msg.QueryTimestamp,
+			msg.Serverhost,
+			msg.Username,
+			msg.Host,
+			msg.Connectionid,
+			msg.Queryid,
+			msg.Operation,
+			msg.Database,
+			msg.Object,
+			msg.Retcode,
+		); err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	//var qr *data_parse.QueryRecord
+	//qr = data_parse.RecordParse(string(message.Value))
+	//msg := data_parse.MessageParse(qr.Message)
+	//if msg.Object == "" {
+	//	return
+	//}
+	//fmt.Println(*msg)
+
+	//stmt.Exec(qr.DbHost,qr.DbPort,*msg.queryTimestamp,*msg.serverhost)
+	//if _, err := stmt.Exec(
+	//	qr.DbHost,
+	//	qr.DbPort,
+	//	msg.QueryTimestamp,
+	//	msg.Serverhost,
+	//	msg.Username,
+	//	msg.Host,
+	//	msg.Connectionid,
+	//	msg.Queryid,
+	//	msg.Operation,
+	//	msg.Database,
+	//	msg.Object,
+	//	msg.Retcode,
+	//); err != nil {
+	//	log.Fatal(err)
+	//}
+	if err := tx.Commit(); err != nil {
+		log.Fatal(err)
+	}
+}
+
 func QueryRecordHandle(message *sarama.ConsumerMessage) {
 	var qr *data_parse.QueryRecord
 	qr = data_parse.RecordParse(string(message.Value))

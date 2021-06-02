@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"strconv"
 	"strings"
 	"sync"
 	"syscall"
@@ -127,9 +128,34 @@ func (consumer *Consumer) ConsumeClaim(session sarama.ConsumerGroupSession, clai
 	// The `ConsumeClaim` itself is called within a goroutine, see:
 	// https://github.com/Shopify/sarama/blob/master/consumer_group.go#L27-L29
 	//listOfNumberMessages := []*sarama.ConsumerMessage{}
+	var consumerMessageSlice []*sarama.ConsumerMessage
+	var sum int
+	sum = 0
+
+	insertBatchSizeStr, ex := os.LookupEnv("CH_INSTANCE_PORT")
+	var insertBatchSize int
+	var portParseError error
+	if !ex {
+		insertBatchSize = 10000
+		log.Printf("The env variable %s is not set.\n", "CH_INSTANCE_PORT")
+	} else {
+		insertBatchSize, portParseError = strconv.Atoi(insertBatchSizeStr)
+		if portParseError != nil {
+			log.Panic("clickhoue port define error !")
+		}
+	}
+
 	for message := range claim.Messages() {
 		//listOfNumberMessages = append(listOfNumberMessages, message)
-		clickhouse_utils.QueryRecordHandle(message)
+		//clickhouse_utils.QueryRecordHandle(message)
+		if sum < insertBatchSize {
+			consumerMessageSlice = append(consumerMessageSlice, message)
+			sum += 1
+		} else {
+			clickhouse_utils.QueryRecordHandleBatch(consumerMessageSlice)
+			sum = 0
+			consumerMessageSlice = nil
+		}
 		//log.Printf("Message claimed: value = %s, timestamp = %v, topic = %s", string(message.Value), message.Timestamp, message.Topic)
 		session.MarkMessage(message, "")
 	}
