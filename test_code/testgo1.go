@@ -2,15 +2,21 @@ package main
 
 import (
 	"fmt"
-	"strings"
+	"strconv"
 )
 
 func main() {
-	s := "hehe"
-	s1 := [1]string{s}
+	listOfNumberStrings := []*string{}
 
-	a := strings.Split(s, ",")
-	a1 := strings.Split(s, ",")
-	fmt.Println(a1)
-	fmt.Println(a[1])
+	for i := 0; i < 10; i++ {
+		var numberString string
+		numberString = fmt.Sprintf("#%s", strconv.Itoa(i))
+		listOfNumberStrings = append(listOfNumberStrings, &numberString)
+	}
+
+	for _, n := range listOfNumberStrings {
+		fmt.Printf("%s\n", *n)
+	}
+
+	return
 }

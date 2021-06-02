@@ -18,6 +18,9 @@ func QueryRecordHandle(message *sarama.ConsumerMessage) {
 	var qr *data_parse.QueryRecord
 	qr = data_parse.RecordParse(string(message.Value))
 	msg := data_parse.MessageParse(qr.Message)
+	if msg.Object == "" {
+		return
+	}
 	//fmt.Println(*msg)
 	chCon := GetChCon()
 	var (
@@ -67,7 +70,7 @@ func GetChCon() *sql.DB {
 		//instanceHost := os.Getenv("INSTANCE_HOST")
 		instanceHost, ex := os.LookupEnv("CH_INSTANCE_HOST")
 		if !ex {
-			instanceHost = "10.200.11.25"
+			instanceHost = "10.200.11.26"
 			log.Printf("The env variable %s is not set.\n", "CH_INSTANCE_HOST")
 		}
 		//instanceHost := "10.200.11.26"
