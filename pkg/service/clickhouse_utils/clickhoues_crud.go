@@ -145,7 +145,7 @@ func GetChCon() *sql.DB {
 		} else {
 			instancePort, portParseError = strconv.Atoi(instancePortStr)
 			if portParseError != nil {
-				log.Panic("clickhoue port define error !")
+				log.Panic("clickhouse port define error !")
 			}
 		}
 		chDatabase, ex := os.LookupEnv("CH_DATABASE")

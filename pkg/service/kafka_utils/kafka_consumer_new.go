@@ -132,16 +132,16 @@ func (consumer *Consumer) ConsumeClaim(session sarama.ConsumerGroupSession, clai
 	var sum int
 	sum = 0
 
-	insertBatchSizeStr, ex := os.LookupEnv("CH_INSTANCE_PORT")
+	insertBatchSizeStr, ex := os.LookupEnv("CH_BATCH_SIZE")
 	var insertBatchSize int
 	var portParseError error
 	if !ex {
 		insertBatchSize = 10000
-		log.Printf("The env variable %s is not set.\n", "CH_INSTANCE_PORT")
+		log.Printf("The env variable %s is not set.\n", "CH_BATCH_SIZE")
 	} else {
 		insertBatchSize, portParseError = strconv.Atoi(insertBatchSizeStr)
 		if portParseError != nil {
-			log.Panic("clickhoue port define error !")
+			log.Panic("clickhouse port define error !")
 		}
 	}
 
