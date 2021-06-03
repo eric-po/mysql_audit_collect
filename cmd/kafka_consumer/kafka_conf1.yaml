@@ -1,0 +1,6 @@
+"InstanceList": "10.1.1.232:9095"
+"Topic": "mysql_audit1"
+"GroupId": "mysql_audits_consume"
+"ClickHouseInstanceHost": "10.200.11.26"
+"ClickHouseInstancePort": 9091
+"ClickHouseDatabase" : "hehe"
