@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"regexp"
 	"strconv"
+	"strings"
 )
 
 type QueryRecord struct {
@@ -38,7 +39,8 @@ type MessageInfo struct {
 	Retcode        int
 }
 
-func MessageParse(message string) *MessageInfo {
+func MessageParse(messageRaw string) *MessageInfo {
+	message := strings.ReplaceAll(messageRaw, "\n", "")
 	reg1 := regexp.MustCompile(`(\d{8} \d{2}:\d{2}:\d{2}),(.*),(.*),(.*),(\d*),(\d*),(.*),(.*),['](.*)['],(\d*$)`)
 
 	result0 := reg1.FindAllStringSubmatch(message, -1)

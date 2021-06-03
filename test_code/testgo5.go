@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"regexp"
 	"strconv"
+	"strings"
 )
 
 type MessageInfo struct {
@@ -52,12 +53,16 @@ func MessageParse(message string) *MessageInfo {
 }
 
 func main() {
-	//s := "20210528 11:12:51,zhc-dba-mysql-dev-01,a_hehe_rw,localhost,906,0,DISCONNECT,,,0"
+	var s = `20210528 11:12:51,zhc-dba-mysql-dev-01,
+a_hehe_rw,localhost,906,0,DISCONNECT,,,0`
 	//s := "20210527 11:04:43,zhc-dba-mysql-dev-01,dba_grb,localhost,653,1252216,QUERY,,'select \\'a\\' , b from test.hehe ;',0"
 	//s := "20210531 12:58:16,dc-dba-mysql-pro-10,a_uis_rw,192.168.2.219,6044145,4958880683,QUERY,,'select userdailyb0_.id as id1_4_, userdailyb0_.app_id as app_id2_4_, userdailyb0_.create_time as create_t3_4_, userdailyb0_.end_gow as end_gow4_4_, userdailyb0_.end_gow_minute as end_gow_5_4_, userdailyb0_.end_gtw as end_gtw6_4_, userdailyb0_.end_gtw_minute as end_gtw_7_4_, userdailyb0_.start_gow as start_go8_4_, userdailyb0_.start_gow_minute as start_go9_4_, userdailyb0_.start_gtw as start_g10_4_, userdailyb0_.start_gtw_minute as start_g11_4_, userdailyb0_.update_time as update_12_4_, userdailyb0_.user_id as user_id13_4_, userdailyb0_.working_day as working14_4_, userdailyb0_.working_day_type as working15_4_ from t_user_daily_behavior userdailyb0_ where userdailyb0_.user_id=897873 and userdailyb0_.app_id=2',0"
-	s := "20210531 14:25:44,dc-dba-mysql-pro-156,a_gulf_rw,192.168.11.148,1566279,17436347284,QUERY,gulf,'select     t2.*     from t_terminal_vehicle t1 left join t_vehicle t2 on t1.vehicle_id = t2.vehicle_id     where t1.terminal_id = \\'862932043955344\\'',0"
+	//s := "20210531 14:25:44,dc-dba-mysql-pro-156,a_gulf_rw,192.168.11.148,1566279,17436347284,QUERY,gulf,'select     t2.*     from t_terminal_vehicle t1 left join t_vehicle t2 on t1.vehicle_id = t2.vehicle_id     where t1.terminal_id = \\'862932043955344\\'',0"
 	//s := "20210531 14:30:28,zhc-dba-mysql-dev-01,a_hehe_rw,localhost,2710,0,CONNECT,,,0"
-	fmt.Println("#########################")
-	msg := MessageParse(s)
+	//s := `20210603 18:56:39,park-mysql03,a_park_ocean_rw,192.168.3.108,1385880805,119989242256,QUERY,park,'SELECT v.VEHICLE_ID, v.APPLY_ID, v.AREA_CODE, v.CAR_MODEL_ID, v.CAR_MODEL_NAME, v.COORDS_FLAG, v.CREATE_TIME, v.CURR_CITY_CODE, v.CURR_CITY_NAME, v.ILLEGAL_REMIND_STATUS, v.LATITUDE, v.LATITUDE_ORI, v.LONGITUDE, v.LONGITUDE_ORI, v.OIL_TYPE, v.PLATE_ENGINNO, v.PLATE_NUMBER, v.PLATE_TYPE, v.PLATE_VIN, v.POSITION_TIME, v.PROVINCE, v.REGIST_NO, v.TERMINAL_ID, v.TERMINAL_PROVINCE, v.UPDATE_TIME, v.USER_ID, v.curr_total_mileage FROM T_USER_VEHICLE v WHERE v.VEHICLE_ID=10200415',0`
+	fmt.Println("bbbbbbbbbbbbbbbbbbbbbbbbb")
+	ss := strings.ReplaceAll(s, "\n", "")
+	fmt.Println(ss)
+	msg := MessageParse(ss)
 	fmt.Println(msg)
 }
