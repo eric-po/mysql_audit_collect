@@ -139,7 +139,7 @@ func (consumer *Consumer) ConsumeClaim(session sarama.ConsumerGroupSession, clai
 	var insertBatchSize int
 	var portParseError error
 	if !ex {
-		insertBatchSize = 10000
+		insertBatchSize = 1000
 		log.Printf("The env variable %s is not set.\n", "CH_BATCH_SIZE")
 	} else {
 		insertBatchSize, portParseError = strconv.Atoi(insertBatchSizeStr)
