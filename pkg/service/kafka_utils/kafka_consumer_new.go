@@ -64,7 +64,10 @@ func KafkaConsumeNew(kafkaInstanceList string, consumeTopic string, GroupId stri
 	ctx, cancel := context.WithCancel(context.Background())
 	client, err := sarama.NewConsumerGroup(strings.Split(kafkaInstanceList, ","), GroupId, config)
 	if err != nil {
-		log.Panicf("Error creating consumer group client: %v", err)
+		//log.Panicf("Error creating consumer group client: %v", err)
+		log.Printf("Kafka consumer error , brokers(%s) is  not reachable. \n \n", kafkaInstanceList)
+		cancel()
+		return
 	}
 
 	wg := &sync.WaitGroup{}
@@ -146,6 +149,7 @@ func (consumer *Consumer) ConsumeClaim(session sarama.ConsumerGroupSession, clai
 	}
 
 	for message := range claim.Messages() {
+		//log.Println(string(message.Value))
 		//listOfNumberMessages = append(listOfNumberMessages, message)
 		//clickhouse_utils.QueryRecordHandle(message)
 		if sum < insertBatchSize {
